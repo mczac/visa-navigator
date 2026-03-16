@@ -8,35 +8,44 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 40 33% 97%;
+    --foreground: 30 10% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 30 10% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 30 10% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 30 10% 12%;
+    --primary-foreground: 40 33% 97%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 40 20% 94%;
+    --secondary-foreground: 30 10% 12%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 40 15% 92%;
+    --muted-foreground: 30 5% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 40 20% 94%;
+    --accent-foreground: 30 10% 12%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 35 15% 88%;
+    --input: 35 15% 88%;
+    --ring: 30 10% 12%;
 
-    --radius: 0.5rem;
+    --radius: 0.625rem;
+
+    --visa-green-bg: 90 40% 90%;
+    --visa-green-fg: 100 70% 18%;
+    --visa-blue-bg: 210 60% 94%;
+    --visa-blue-fg: 210 70% 28%;
+    --visa-amber-bg: 38 80% 92%;
+    --visa-amber-fg: 30 80% 22%;
+    --visa-red-bg: 0 60% 94%;
+    --visa-red-fg: 0 50% 30%;
 
     --sidebar-background: 0 0% 98%;
 

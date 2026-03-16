@@ -57,6 +57,12 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        visa: {
+          green: { bg: "hsl(var(--visa-green-bg))", fg: "hsl(var(--visa-green-fg))" },
+          blue: { bg: "hsl(var(--visa-blue-bg))", fg: "hsl(var(--visa-blue-fg))" },
+          amber: { bg: "hsl(var(--visa-amber-bg))", fg: "hsl(var(--visa-amber-fg))" },
+          red: { bg: "hsl(var(--visa-red-bg))", fg: "hsl(var(--visa-red-fg))" },
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
