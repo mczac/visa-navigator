@@ -2,12 +2,28 @@ import { useState, useMemo, useCallback } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { allCountries, lookupVisa, type CountryVisaResult } from "@/data/visaData";
+import { allCountries, lookupVisa, type CountryVisaResult, type VisaOption } from "@/data/visaData";
 import { VisaCard } from "./VisaCard";
+import { cn } from "@/lib/utils";
+
+const tagStyles = {
+  green: "border-visa-green-fg/30 text-visa-green-fg",
+  blue: "border-visa-blue-fg/30 text-visa-blue-fg",
+  amber: "border-visa-amber-fg/30 text-visa-amber-fg",
+  red: "border-visa-red-fg/30 text-visa-red-fg",
+};
+
+const tagStylesActive = {
+  green: "border-visa-green-fg bg-card shadow-sm",
+  blue: "border-visa-blue-fg bg-card shadow-sm",
+  amber: "border-visa-amber-fg bg-card shadow-sm",
+  red: "border-visa-red-fg bg-card shadow-sm",
+};
 
 export function VisaFinder() {
   const [query, setQuery] = useState("");
   const [result, setResult] = useState<CountryVisaResult | null>(null);
+  const [selectedVisa, setSelectedVisa] = useState<VisaOption | null>(null);
 
   const suggestions = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -18,21 +34,23 @@ export function VisaFinder() {
   const handleSearch = useCallback((country?: string) => {
     const term = country || query;
     if (!term.trim()) return;
-    setResult(lookupVisa(term));
+    const r = lookupVisa(term);
+    setResult(r);
     setQuery(term);
+    setSelectedVisa(r.found && r.visas.length > 0 ? r.visas[r.visas.length - 1] : null);
   }, [query]);
 
   return (
     <div className="w-full max-w-2xl mx-auto">
       <p className="text-sm text-muted-foreground mb-2">
-        Enter your country to see which Indonesian visas you can apply for
+        Find visa options available for your country
       </p>
 
       <div className="flex gap-2.5">
         <div className="relative flex-1">
           <Input
             value={query}
-            onChange={e => { setQuery(e.target.value); setResult(null); }}
+            onChange={e => { setQuery(e.target.value); setResult(null); setSelectedVisa(null); }}
             onKeyDown={e => e.key === "Enter" && handleSearch()}
             placeholder="Search for your country..."
             className="h-11 pr-10"
@@ -59,23 +77,57 @@ export function VisaFinder() {
       )}
 
       {result && (
-        <div className="mt-6 pt-6 border-t border-border">
+        <div className="mt-8">
           {result.found ? (
             <>
-              <div className="flex items-baseline gap-3 mb-3">
-                <h2 className="text-xl font-medium text-foreground">{result.country}</h2>
-                <span className="text-sm text-muted-foreground">
-                  {result.visas.length} visa option{result.visas.length !== 1 ? "s" : ""} available
+              {/* Country header */}
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-sm font-medium text-muted-foreground bg-secondary rounded-full w-10 h-10 flex items-center justify-center shrink-0">
+                  {result.country.slice(0, 2).toUpperCase()}
                 </span>
+                <div>
+                  <h2 className="text-xl font-medium text-foreground leading-tight">{result.country}</h2>
+                  <p className="text-sm text-muted-foreground">
+                    {result.visas.length} visa type{result.visas.length !== 1 ? "s" : ""} available
+                  </p>
+                </div>
               </div>
-              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                {result.message}
-              </p>
-              <div className="space-y-3">
-                {result.visas.map((visa, i) => (
-                  <VisaCard key={visa.type} visa={visa} featured={i === 0} />
+
+              {/* Horizontal visa type cards */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                {result.visas.map(visa => (
+                  <button
+                    key={visa.type}
+                    onClick={() => setSelectedVisa(visa)}
+                    className={cn(
+                      "text-left rounded-xl border-2 p-3 transition-all",
+                      selectedVisa?.type === visa.type
+                        ? tagStylesActive[visa.tagColor]
+                        : tagStyles[visa.tagColor] + " bg-card/50 hover:bg-card"
+                    )}
+                  >
+                    <span className={cn(
+                      "inline-block text-[10px] font-medium px-2 py-0.5 rounded-full mb-1.5",
+                      visa.tagColor === "green" && "bg-visa-green-bg text-visa-green-fg",
+                      visa.tagColor === "blue" && "bg-visa-blue-bg text-visa-blue-fg",
+                      visa.tagColor === "amber" && "bg-visa-amber-bg text-visa-amber-fg",
+                      visa.tagColor === "red" && "bg-visa-red-bg text-visa-red-fg",
+                    )}>
+                      {visa.tag}
+                    </span>
+                    <p className="text-sm font-medium text-card-foreground leading-snug">{visa.title}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{visa.duration}</p>
+                  </button>
                 ))}
               </div>
+
+              {/* Selected visa detail */}
+              {selectedVisa && (
+                <div className="border-t border-border pt-6">
+                  <VisaCard visa={selectedVisa} featured={false} />
+                </div>
+              )}
+
               <p className="text-xs text-muted-foreground mt-5 pt-4 border-t border-border">
                 For work permits, investor visas, and other long-stay options, visit the official website of the Immigration of the Republic of Indonesia.
               </p>
