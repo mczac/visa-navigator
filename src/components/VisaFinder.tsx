@@ -108,7 +108,10 @@ export function VisaFinder() {
                   >
                     <span className={cn(
                       "inline-block text-[10px] font-medium px-2 py-0.5 rounded-full mb-1.5",
-                      `bg-visa-${visa.tagColor}-bg text-visa-${visa.tagColor}-fg`
+                      visa.tagColor === "green" && "bg-visa-green-bg text-visa-green-fg",
+                      visa.tagColor === "blue" && "bg-visa-blue-bg text-visa-blue-fg",
+                      visa.tagColor === "amber" && "bg-visa-amber-bg text-visa-amber-fg",
+                      visa.tagColor === "red" && "bg-visa-red-bg text-visa-red-fg",
                     )}>
                       {visa.tag}
                     </span>
