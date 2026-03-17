@@ -98,7 +98,7 @@ export function VisaFinder() {
               </div>
 
               {/* Horizontal visa type cards */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
                 {result.visas.map(visa => (
                   <button
                     key={visa.type}
