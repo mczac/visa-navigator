@@ -6,6 +6,8 @@ const tagBg = {
   blue: "bg-visa-blue-bg text-visa-blue-fg",
   amber: "bg-visa-amber-bg text-visa-amber-fg",
   red: "bg-visa-red-bg text-visa-red-fg",
+  teal: "bg-visa-teal-bg text-visa-teal-fg",
+  gray: "bg-visa-gray-bg text-visa-gray-fg",
 };
 
 const dotColor = {
@@ -13,6 +15,8 @@ const dotColor = {
   blue: "bg-visa-blue-fg",
   amber: "bg-visa-amber-fg",
   red: "bg-visa-red-fg",
+  teal: "bg-visa-teal-fg",
+  gray: "bg-visa-gray-fg",
 };
 
 export function VisaCard({ visa, featured }: { visa: VisaOption; featured?: boolean }) {
@@ -28,7 +32,11 @@ export function VisaCard({ visa, featured }: { visa: VisaOption; featured?: bool
           {visa.requirements.map((req, i) => (
             <li key={i} className="flex gap-2.5 text-sm text-muted-foreground py-2 border-b border-border last:border-0">
               <span className={cn("w-2 h-2 rounded-full mt-1.5 shrink-0", dotColor[visa.tagColor])} />
-              {req}
+              <div>
+                <span className="font-medium text-card-foreground">{req.label}</span>
+                <span className="mx-1">—</span>
+                {req.value}
+              </div>
             </li>
           ))}
         </ul>
@@ -45,9 +53,13 @@ export function VisaCard({ visa, featured }: { visa: VisaOption; featured?: bool
         </div>
       </div>
 
-      {visa.note && (
-        <div className={cn("mt-3 text-xs rounded-lg px-3 py-2", tagBg.amber)}>
-          {visa.note}
+      {visa.notes.length > 0 && (
+        <div className="mt-3 space-y-2">
+          {visa.notes.map((note, i) => (
+            <div key={i} className={cn("text-xs rounded-lg px-3 py-2", tagBg.amber)}>
+              {note}
+            </div>
+          ))}
         </div>
       )}
     </div>
