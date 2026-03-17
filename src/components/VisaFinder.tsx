@@ -11,6 +11,8 @@ const tagStyles = {
   blue: "border-visa-blue-fg/30 text-visa-blue-fg",
   amber: "border-visa-amber-fg/30 text-visa-amber-fg",
   red: "border-visa-red-fg/30 text-visa-red-fg",
+  teal: "border-visa-teal-fg/30 text-visa-teal-fg",
+  gray: "border-visa-gray-fg/30 text-visa-gray-fg",
 };
 
 const tagStylesActive = {
@@ -18,6 +20,8 @@ const tagStylesActive = {
   blue: "border-visa-blue-fg bg-card shadow-sm",
   amber: "border-visa-amber-fg bg-card shadow-sm",
   red: "border-visa-red-fg bg-card shadow-sm",
+  teal: "border-visa-teal-fg bg-card shadow-sm",
+  gray: "border-visa-gray-fg bg-card shadow-sm",
 };
 
 export function VisaFinder() {
@@ -94,7 +98,7 @@ export function VisaFinder() {
               </div>
 
               {/* Horizontal visa type cards */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
                 {result.visas.map(visa => (
                   <button
                     key={visa.type}
@@ -112,6 +116,8 @@ export function VisaFinder() {
                       visa.tagColor === "blue" && "bg-visa-blue-bg text-visa-blue-fg",
                       visa.tagColor === "amber" && "bg-visa-amber-bg text-visa-amber-fg",
                       visa.tagColor === "red" && "bg-visa-red-bg text-visa-red-fg",
+                      visa.tagColor === "teal" && "bg-visa-teal-bg text-visa-teal-fg",
+                      visa.tagColor === "gray" && "bg-visa-gray-bg text-visa-gray-fg",
                     )}>
                       {visa.tag}
                     </span>

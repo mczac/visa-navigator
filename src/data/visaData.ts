@@ -1,13 +1,18 @@
+export interface VisaRequirement {
+  label: string;
+  value: string;
+}
+
 export interface VisaOption {
   type: string;
   title: string;
   tag: string;
-  tagColor: "green" | "blue" | "amber" | "red";
+  tagColor: "green" | "blue" | "amber" | "red" | "teal" | "gray";
   duration: string;
   fee: string;
   description: string;
-  requirements: string[];
-  note: string | null;
+  requirements: VisaRequirement[];
+  notes: string[];
 }
 
 export interface CountryVisaResult {
@@ -79,6 +84,126 @@ function includes(list: string[], country: string) {
   return list.some(c => normalize(c) === n);
 }
 
+// Visa content blocks matching the HTML widget
+
+const visaFreeContent: Omit<VisaOption, "description"> = {
+  type: "visa-free",
+  title: "Visa-Free Entry",
+  tag: "Visa-Free",
+  tagColor: "green",
+  duration: "Up to 30 days",
+  fee: "Free",
+  requirements: [
+    { label: "Purpose", value: "Valid for tourism purposes only" },
+    { label: "Entry", value: "Single entry" },
+    { label: "Extension", value: "Cannot be extended or converted" },
+    { label: "Passport", value: "Must be valid for at least 6 months" },
+  ],
+  notes: ["Cannot be extended or converted to another visa type."],
+};
+
+const voaContent: Omit<VisaOption, "description"> = {
+  type: "voa",
+  title: "Visa on Arrival / e-VoA",
+  tag: "Visa on Arrival",
+  tagColor: "blue",
+  duration: "Up to 30 days",
+  fee: "IDR 500,000 (~$32)",
+  requirements: [
+    { label: "Passport", value: "Valid for at least 6 months." },
+    { label: "A ticket", value: "Return or onward ticket." },
+    { label: "(Optional) Invitation Letter", value: "In case of a governmental visit. Issued by the Indonesian ministry, department, or institution concerned." },
+    { label: "Fee", value: "IDR 500,000 (paid by card)" },
+  ],
+  notes: [
+    "This visa cannot be used to obtain employment in Indonesia. Holders of a (e-)VoA cannot be involved in any gainful activities.",
+    "e-VoA vs VoA: Regular Indonesian VoA and e-VoA are practically the same. The main difference is that e-VoA is applied and issued online, while VoA is obtained at the entry point. With an e-VoA, you don't have to wait in the queue at immigration and have a much smoother arrival. It usually takes 1 to 3 business days for the visa to be issued.",
+  ],
+};
+
+const callingContent: Omit<VisaOption, "description"> = {
+  type: "calling",
+  title: "Calling Visa",
+  tag: "Calling Visa",
+  tagColor: "amber",
+  duration: "Up to 60 days",
+  fee: "Contact embassy",
+  requirements: [
+    { label: "Sponsor", value: "A local company, Indonesian resident or any eligible individual can be your sponsor. The sponsor is required to submit a formal request to Indonesian immigration authorities." },
+    { label: "Passport", value: "Valid throughout your journey plus 6 months after your date of departure." },
+    { label: "Proof of Sufficient Funds", value: "Bank statements and any other document that proves your self-sustainability." },
+    { label: "Letter of Intention", value: "Travel itinerary, a letter disclosing your purpose of visit." },
+    { label: "Proof of Return", value: "Return or onward ticket." },
+    { label: "Photographs", value: "A biometric photograph." },
+    { label: "Further Documents", value: "The mission you are applying through can request any additional documents." },
+    { label: "Fee", value: "Subject to change depending on your citizenship and case. Contact nearest embassy for more information." },
+  ],
+  notes: [],
+};
+
+const singleEntryContent: Omit<VisaOption, "description"> = {
+  type: "single-entry",
+  title: "Single-Entry Visa",
+  tag: "Single-Entry Visa",
+  tagColor: "red",
+  duration: "Up to 180 days",
+  fee: "IDR 1,500,000–2,000,000",
+  requirements: [
+    { label: "Passport", value: "Valid for at least 6 months after the date of departure, with at least 2 blank pages." },
+    { label: "Proof of Sufficient Funds", value: "A bank statement from the last 3 months showing a minimum balance of USD 2,000." },
+    { label: "Proof of Return", value: "Return or onward ticket." },
+    { label: "Photographs", value: "A biometric photograph." },
+    { label: "Further Documents", value: "The mission you are applying through can request any additional documents." },
+    { label: "Accommodation Details", value: "Address of your stay, such as hotel, resort, guesthouse, or host." },
+    { label: "Fee", value: "IDR 1,500,000 to 2,000,000" },
+  ],
+  notes: [],
+};
+
+const studentContent: Omit<VisaOption, "description"> = {
+  type: "student",
+  title: "Student Visa",
+  tag: "Student Visa",
+  tagColor: "teal",
+  duration: "6 months – 1 year",
+  fee: "~IDR 2,000,000",
+  requirements: [
+    { label: "Passport", value: "Valid for at least 12 months beyond your date of entry." },
+    { label: "Sponsor", value: "A letter of sponsorship from the university." },
+    { label: "Proof of Sufficient Funds", value: "Bank statements proving that you have sufficient funds to support yourself in Indonesia." },
+    { label: "Letter of Admission", value: "Official confirmation of your enrollment to the program." },
+    { label: "Photographs", value: "A biometric photograph." },
+    { label: "Study Permit", value: "Issued by the Ministry of Education." },
+    { label: "Accommodation Details", value: "Address of your stay, such as hotel, resort, guesthouse, or host." },
+    { label: "Fee", value: "About IDR 2,000,000" },
+  ],
+  notes: [
+    "You cannot work or be involved in any gainful activities on a student visa.",
+    "A student visa is often issued for 6 months to 1 year. After this period, you will need to extend your visa.",
+  ],
+};
+
+const employmentContent: Omit<VisaOption, "description"> = {
+  type: "employment",
+  title: "Employment Visa",
+  tag: "Employment Visa",
+  tagColor: "gray",
+  duration: "Up to 1 year (renewable)",
+  fee: "Varies",
+  requirements: [
+    { label: "Passport", value: "Valid for at least 18 months beyond entry." },
+    { label: "CV", value: "Proving the employee's work experience in the past 5 years." },
+    { label: "Qualifications", value: "Copies of certificates, diplomas and other documents." },
+    { label: "Health Insurance", value: "Proof of insurance coverage throughout the stay." },
+    { label: "Photographs", value: "A passport-size photo." },
+    { label: "Employment Contract", value: "Signed by the employee and the employer." },
+    { label: "RPTKA Approval (Employer)", value: "Issued by the Ministry of Manpower." },
+    { label: "Company Documents (Employer)", value: "Deed of establishment, tax number, business identification number, etc." },
+    { label: "DPKK Fee Payment (Employer)", value: "Proof of payment for the Skills and Development Fund (USD 100/month)." },
+  ],
+  notes: [],
+};
+
 export function lookupVisa(country: string): CountryVisaResult {
   const trimmed = country.trim();
   if (!trimmed) return { country: trimmed, found: false, visas: [], message: "" };
@@ -101,82 +226,43 @@ export function lookupVisa(country: string): CountryVisaResult {
 
   if (includes(visaFreeCountries, matched)) {
     visas.push({
-      type: "visa-free",
-      title: "Visa-Free Entry",
-      tag: "Visa-Free",
-      tagColor: "green",
-      duration: "Up to 30 days",
-      fee: "Free",
-      description: `As a citizen of ${matched}, you can enter Indonesia visa-free for tourism purposes. This is a single-entry permit that cannot be extended or converted.`,
-      requirements: [
-        "Passport valid for at least 6 months",
-        "Return or onward ticket",
-        "Tourism purposes only"
-      ],
-      note: "Cannot be extended or converted to another visa type."
+      ...visaFreeContent,
+      description: `Citizens of ${matched} can enter Indonesia visa-free for up to 30 days. You cannot extend your stay on a visa-free entry.`,
     });
   }
 
   if (includes(voaCountries, matched)) {
     visas.push({
-      type: "voa",
-      title: "Visa on Arrival / e-VoA",
-      tag: "Visa on Arrival",
-      tagColor: "blue",
-      duration: "Up to 30 days",
-      fee: "IDR 500,000 (~$32)",
-      description: `Citizens of ${matched} can obtain a Visa on Arrival at Indonesian entry points, or apply online for an e-VoA (processed in 1–3 business days).`,
-      requirements: [
-        "Passport valid for at least 6 months",
-        "Return or onward ticket",
-        "Payment by card (IDR 500,000)"
-      ],
-      note: "Valid for tourism, business meetings, government duties, and transit. Cannot be used for employment."
+      ...voaContent,
+      description: `Available for citizens of ${matched} upon arrival at designated entry points. Issued online or at the designated ports of entry. This visa can be used for tourism, government duties, business meetings, purchase of goods, and transit.`,
     });
   }
 
   if (includes(callingVisaCountries, matched)) {
     visas.push({
-      type: "calling",
-      title: "Calling Visa",
-      tag: "Calling Visa",
-      tagColor: "amber",
-      duration: "Up to 60 days",
-      fee: "Contact embassy",
-      description: `Citizens of ${matched} require a Calling Visa, which must be arranged through a local sponsor in Indonesia before travel.`,
-      requirements: [
-        "Local sponsor must submit formal request to immigration",
-        "Passport valid throughout journey + 6 months after departure",
-        "Proof of sufficient funds",
-        "Letter of intention",
-        "Return or onward ticket",
-        "Biometric photograph"
-      ],
-      note: "A local sponsor in Indonesia is mandatory. Contact your nearest Indonesian embassy for current fees."
+      ...callingContent,
+      description: `A calling visa is required for citizens of ${matched}. In order to obtain this visa type, one must find a local sponsor, either a company or a resident. The Indonesian government follows this policy to manage immigration demand from countries in vulnerable situations.`,
     });
   }
 
-  // If none of the above matched, it's a single-entry visa country
+  // Single-entry visa for countries not in any of the above lists
   if (visas.length === 0) {
     visas.push({
-      type: "single-entry",
-      title: "Single-Entry Visa",
-      tag: "Embassy Visa",
-      tagColor: "red",
-      duration: "Up to 180 days",
-      fee: "IDR 1,500,000–2,000,000",
-      description: `Citizens of ${matched} must apply for a single-entry visa at an Indonesian embassy or visa processing center before traveling.`,
-      requirements: [
-        "Passport valid 6+ months after departure with 2 blank pages",
-        "Bank statement (last 3 months) showing min. USD 2,000",
-        "Return or onward ticket",
-        "Biometric photograph",
-        "Accommodation details",
-        "Additional documents may be requested"
-      ],
-      note: "Must be obtained before travel. Visit your nearest Indonesian embassy or consulate."
+      ...singleEntryContent,
+      description: `Citizens of ${matched} require a single-entry visa to visit Indonesia. It's usually issued for up to 180 days and requires a visit to the embassy or a visa processing center.`,
     });
   }
+
+  // Student and employment visas are ALWAYS available to all nationalities
+  visas.push({
+    ...studentContent,
+    description: `A study visa is one of the most commonly applied visa types in Indonesia. Citizens of ${matched} who wish to pursue education in Indonesia can apply for this visa.`,
+  });
+
+  visas.push({
+    ...employmentContent,
+    description: `Obtaining an employment visa in Indonesia is a multi-layered process. Citizens of ${matched} need to acquire RPTKA approval and sponsorship from their employer.`,
+  });
 
   const plural = visas.length > 1 ? "options" : "option";
   return {

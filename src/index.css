@@ -46,6 +46,10 @@ All colors MUST be HSL.
     --visa-amber-fg: 30 80% 22%;
     --visa-red-bg: 0 60% 94%;
     --visa-red-fg: 0 50% 30%;
+    --visa-teal-bg: 160 40% 92%;
+    --visa-teal-fg: 165 60% 20%;
+    --visa-gray-bg: 0 0% 96%;
+    --visa-gray-fg: 0 0% 33%;
 
     --sidebar-background: 0 0% 98%;
 
