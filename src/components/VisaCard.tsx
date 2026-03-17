@@ -21,7 +21,7 @@ const dotColor = {
 
 export function VisaCard({ visa, featured }: { visa: VisaOption; featured?: boolean }) {
   return (
-    <div className={cn("rounded-xl bg-card", featured && "border-2 border-primary shadow-sm")}>
+    <div className={cn("rounded-xl bg-card p-6", featured && "border-2 border-primary shadow-sm")}>
       <h3 className="text-base font-medium text-card-foreground mb-1">
         {visa.title} — requirements & details
       </h3>
