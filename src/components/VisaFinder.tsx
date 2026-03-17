@@ -11,6 +11,8 @@ const tagStyles = {
   blue: "border-visa-blue-fg/30 text-visa-blue-fg",
   amber: "border-visa-amber-fg/30 text-visa-amber-fg",
   red: "border-visa-red-fg/30 text-visa-red-fg",
+  teal: "border-visa-teal-fg/30 text-visa-teal-fg",
+  gray: "border-visa-gray-fg/30 text-visa-gray-fg",
 };
 
 const tagStylesActive = {
@@ -18,6 +20,8 @@ const tagStylesActive = {
   blue: "border-visa-blue-fg bg-card shadow-sm",
   amber: "border-visa-amber-fg bg-card shadow-sm",
   red: "border-visa-red-fg bg-card shadow-sm",
+  teal: "border-visa-teal-fg bg-card shadow-sm",
+  gray: "border-visa-gray-fg bg-card shadow-sm",
 };
 
 export function VisaFinder() {
