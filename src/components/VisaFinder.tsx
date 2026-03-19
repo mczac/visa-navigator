@@ -120,6 +120,7 @@ export function VisaFinder() {
                       visa.tagColor === "red" && "bg-visa-red-bg text-visa-red-fg",
                       visa.tagColor === "teal" && "bg-visa-teal-bg text-visa-teal-fg",
                       visa.tagColor === "gray" && "bg-visa-gray-bg text-visa-gray-fg",
+                      visa.tagColor === "purple" && "bg-visa-purple-bg text-visa-purple-fg",
                     )}>
                       {visa.tag}
                     </span>

@@ -18,6 +18,7 @@ const dotColor = {
   red: "bg-visa-red-fg",
   teal: "bg-visa-teal-fg",
   gray: "bg-visa-gray-fg",
+  purple: "bg-visa-purple-fg",
 };
 
 export function VisaCard({ visa, featured }: { visa: VisaOption; featured?: boolean }) {
