@@ -8,6 +8,7 @@ const tagBg = {
   red: "bg-visa-red-bg text-visa-red-fg",
   teal: "bg-visa-teal-bg text-visa-teal-fg",
   gray: "bg-visa-gray-bg text-visa-gray-fg",
+  purple: "bg-visa-purple-bg text-visa-purple-fg",
 };
 
 const dotColor = {
@@ -17,6 +18,7 @@ const dotColor = {
   red: "bg-visa-red-fg",
   teal: "bg-visa-teal-fg",
   gray: "bg-visa-gray-fg",
+  purple: "bg-visa-purple-fg",
 };
 
 export function VisaCard({ visa, featured }: { visa: VisaOption; featured?: boolean }) {

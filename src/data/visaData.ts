@@ -7,7 +7,7 @@ export interface VisaOption {
   type: string;
   title: string;
   tag: string;
-  tagColor: "green" | "blue" | "amber" | "red" | "teal" | "gray";
+  tagColor: "green" | "blue" | "amber" | "red" | "teal" | "gray" | "purple";
   duration: string;
   fee: string;
   description: string;
@@ -21,6 +21,8 @@ export interface CountryVisaResult {
   visas: VisaOption[];
   message: string;
 }
+
+// ── Country lists ──
 
 const visaFreeCountries = [
   "Brunei Darussalam", "Malaysia", "Thailand", "Vietnam", "Philippines",
@@ -84,7 +86,7 @@ function includes(list: string[], country: string) {
   return list.some(c => normalize(c) === n);
 }
 
-// Visa content blocks matching the HTML widget
+// ── Visa content templates ──
 
 const visaFreeContent: Omit<VisaOption, "description"> = {
   type: "visa-free",
@@ -108,7 +110,7 @@ const voaContent: Omit<VisaOption, "description"> = {
   tag: "Visa on Arrival",
   tagColor: "blue",
   duration: "Up to 30 days",
-  fee: "IDR 500,000 (~$32)",
+  fee: "IDR 500,000 (~$35)",
   requirements: [
     { label: "Passport", value: "Valid for at least 6 months." },
     { label: "A ticket", value: "Return or onward ticket." },
@@ -160,6 +162,27 @@ const singleEntryContent: Omit<VisaOption, "description"> = {
   notes: [],
 };
 
+const socialCulturalContent: Omit<VisaOption, "description"> = {
+  type: "social-cultural",
+  title: "Social-Cultural Visa (B211A)",
+  tag: "B211A",
+  tagColor: "purple",
+  duration: "60 days (extendable to 180)",
+  fee: "Varies by agent/embassy",
+  requirements: [
+    { label: "Passport", value: "Valid for at least 6 months after the date of departure, with at least 2 blank pages." },
+    { label: "Sponsorship Letter", value: "A letter from a sponsor in Indonesia (individual or organization)." },
+    { label: "Proof of Sufficient Funds", value: "Bank statements showing adequate funds for your stay." },
+    { label: "Proof of Return", value: "Return or onward ticket." },
+    { label: "Photographs", value: "A biometric photograph." },
+    { label: "Accommodation Details", value: "Address of your stay, such as hotel, resort, guesthouse, or host." },
+  ],
+  notes: [
+    "Valid for 60 days upon entry. Can be extended up to 4 times (30 days each), for a total stay of up to 180 days.",
+    "Requires a sponsorship letter from an Indonesian individual or organization.",
+  ],
+};
+
 const studentContent: Omit<VisaOption, "description"> = {
   type: "student",
   title: "Student Visa",
@@ -203,6 +226,87 @@ const employmentContent: Omit<VisaOption, "description"> = {
   ],
   notes: [],
 };
+
+// ── Static visa overview cards (for the overview grid) ──
+
+export const visaOverviewCards = [
+  {
+    title: "Visa-Free Entry",
+    subtitle: "30 Days",
+    color: "green" as const,
+    points: [
+      "Valid for tourism purposes only",
+      "Single entry",
+      "Cannot be extended or converted",
+      "Passport must be valid for at least 6 months",
+    ],
+  },
+  {
+    title: "Visa on Arrival (VoA)",
+    subtitle: "30 Days",
+    color: "blue" as const,
+    points: [
+      "Available for 90+ nationalities",
+      "Cost: IDR 500,000 (~USD 35)",
+      "Can be extended once for 30 days",
+      "Valid for tourism and certain business activities",
+    ],
+  },
+  {
+    title: "e-VoA (Electronic)",
+    subtitle: "30 Days",
+    color: "blue" as const,
+    points: [
+      "Same benefits as regular VoA",
+      "Skip the queue at immigration",
+      "Process takes 1–3 business days",
+      "Recommended for smoother arrival",
+    ],
+  },
+  {
+    title: "Social-Cultural (B211A)",
+    subtitle: "60 Days",
+    color: "purple" as const,
+    points: [
+      "Valid for 60 days upon entry",
+      "Can be extended up to 4 times (30 days each)",
+      "Total stay: up to 180 days",
+      "Requires sponsorship letter",
+    ],
+  },
+];
+
+// ── Entry requirements ──
+
+export const entryRequirements = [
+  {
+    label: "Passport validity",
+    value: "Your passport must be valid for at least 6 months from your date of entry and have at least 2 blank pages for stamps.",
+  },
+  {
+    label: "Proof of onward travel",
+    value: "You must show proof of onward or return travel (flight ticket) when entering Indonesia.",
+  },
+  {
+    label: "Travel insurance",
+    value: "While not mandatory, comprehensive travel insurance is highly recommended. Ensure it covers medical emergencies, evacuation, and activities like surfing or horse riding.",
+  },
+  {
+    label: "Health requirements",
+    value: "No mandatory vaccinations required for Indonesia. However, vaccinations for Hepatitis A, Typhoid, and Tetanus are recommended. Consider malaria prophylaxis if visiting remote areas during the rainy season.",
+  },
+];
+
+// ── Customs regulations ──
+
+export const customsRegulations = [
+  { label: "Duty-free", value: "200 cigarettes or 25 cigars or 100g tobacco" },
+  { label: "Alcohol", value: "Up to 1 liter" },
+  { label: "Prohibited", value: "Drugs, firearms, pornography, certain medications" },
+  { label: "Cash declaration", value: "Declare cash over USD 10,000" },
+];
+
+// ── Lookup function ──
 
 export function lookupVisa(country: string): CountryVisaResult {
   const trimmed = country.trim();
@@ -253,7 +357,13 @@ export function lookupVisa(country: string): CountryVisaResult {
     });
   }
 
-  // Student and employment visas are ALWAYS available to all nationalities
+  // Social-Cultural (B211A) — available to all
+  visas.push({
+    ...socialCulturalContent,
+    description: `For longer stays, citizens of ${matched} can apply for the Social-Cultural Visa (B211A) through the Indonesian embassy or a visa agent before travel.`,
+  });
+
+  // Student and employment visas — always available
   visas.push({
     ...studentContent,
     description: `A study visa is one of the most commonly applied visa types in Indonesia. Citizens of ${matched} who wish to pursue education in Indonesia can apply for this visa.`,

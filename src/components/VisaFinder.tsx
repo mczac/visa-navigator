@@ -13,6 +13,7 @@ const tagStyles = {
   red: "border-visa-red-fg/30 text-visa-red-fg",
   teal: "border-visa-teal-fg/30 text-visa-teal-fg",
   gray: "border-visa-gray-fg/30 text-visa-gray-fg",
+  purple: "border-visa-purple-fg/30 text-visa-purple-fg",
 };
 
 const tagStylesActive = {
@@ -22,6 +23,7 @@ const tagStylesActive = {
   red: "border-visa-red-fg bg-card shadow-sm",
   teal: "border-visa-teal-fg bg-card shadow-sm",
   gray: "border-visa-gray-fg bg-card shadow-sm",
+  purple: "border-visa-purple-fg bg-card shadow-sm",
 };
 
 export function VisaFinder() {
@@ -118,6 +120,7 @@ export function VisaFinder() {
                       visa.tagColor === "red" && "bg-visa-red-bg text-visa-red-fg",
                       visa.tagColor === "teal" && "bg-visa-teal-bg text-visa-teal-fg",
                       visa.tagColor === "gray" && "bg-visa-gray-bg text-visa-gray-fg",
+                      visa.tagColor === "purple" && "bg-visa-purple-bg text-visa-purple-fg",
                     )}>
                       {visa.tag}
                     </span>
