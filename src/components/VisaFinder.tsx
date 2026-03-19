@@ -13,6 +13,7 @@ const tagStyles = {
   red: "border-visa-red-fg/30 text-visa-red-fg",
   teal: "border-visa-teal-fg/30 text-visa-teal-fg",
   gray: "border-visa-gray-fg/30 text-visa-gray-fg",
+  purple: "border-visa-purple-fg/30 text-visa-purple-fg",
 };
 
 const tagStylesActive = {
