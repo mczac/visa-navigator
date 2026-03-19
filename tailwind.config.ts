@@ -64,6 +64,7 @@ export default {
           red: { bg: "hsl(var(--visa-red-bg))", fg: "hsl(var(--visa-red-fg))" },
           teal: { bg: "hsl(var(--visa-teal-bg))", fg: "hsl(var(--visa-teal-fg))" },
           gray: { bg: "hsl(var(--visa-gray-bg))", fg: "hsl(var(--visa-gray-fg))" },
+          purple: { bg: "hsl(var(--visa-purple-bg))", fg: "hsl(var(--visa-purple-fg))" },
         },
       },
       borderRadius: {

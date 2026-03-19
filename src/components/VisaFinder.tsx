@@ -23,6 +23,7 @@ const tagStylesActive = {
   red: "border-visa-red-fg bg-card shadow-sm",
   teal: "border-visa-teal-fg bg-card shadow-sm",
   gray: "border-visa-gray-fg bg-card shadow-sm",
+  purple: "border-visa-purple-fg bg-card shadow-sm",
 };
 
 export function VisaFinder() {
